@@ -1,0 +1,4 @@
+.gitignore
+prueba.py
+/.idea/
+/venv/
