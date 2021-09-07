@@ -9,11 +9,11 @@ from comtypes import CLSCTX_ALL
 from pycaw.pycaw import AudioUtilities, IAudioEndpointVolume
 
 #############################
-weight_cam, height_cam = 640, 480
+width_cam, height_cam = 640, 480
 #############################
 
 cap = cv2.VideoCapture(0)
-cap.set(3, weight_cam)
+cap.set(3, width_cam)
 cap.set(4, height_cam)
 previous_time = 0
 
@@ -35,9 +35,20 @@ vol_percentage = 0
 
 while True:
     success, img = cap.read()
+
+    # find Hand
+
     img = detector.find_hands(img)
     landmark_list = detector.find_position(img, draw=False)
     if len(landmark_list) != 0:
+
+        # filter based on size
+
+        # find distance between index and thumb
+
+        # convert volume
+        # reduce resolution to make it smoother
+        # check fingers up
 
         x1, y1 = landmark_list[4][1], landmark_list[4][2]
         x2, y2 = landmark_list[8][1], landmark_list[8][2]

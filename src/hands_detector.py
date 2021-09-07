@@ -36,8 +36,8 @@ class HandsDetector:
             my_hand = self.results.multi_hand_landmarks[hand_number]
 
             for id, ldmark in enumerate(my_hand.landmark):
-                height, weigth, chanels = img.shape
-                position_x, position_y = int(ldmark.x * weigth), int(ldmark.y * height)
+                height, width, channels = img.shape
+                position_x, position_y = int(ldmark.x * width), int(ldmark.y * height)
 
                 landmarks_list.append([id, position_x, position_y])
 
