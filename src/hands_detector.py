@@ -17,6 +17,10 @@ class HandsDetector:
 
         self.mp_draw = mp.solutions.drawing_utils
 
+        self.tip_ids = [4, 8, 12, 16, 20]
+
+        self.landmarks_list = []
+
     def find_hands(self, img, draw=True):
 
         imgRGB = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
@@ -30,17 +34,33 @@ class HandsDetector:
 
     def find_position(self, img, hand_number=0, draw=True):
 
-        landmarks_list = []
+        self.landmarks_list = []
 
         if self.results.multi_hand_landmarks:
             my_hand = self.results.multi_hand_landmarks[hand_number]
 
-            for id, ldmark in enumerate(my_hand.landmark):
+            for id, ld in enumerate(my_hand.landmark):
                 height, width, channels = img.shape
-                position_x, position_y = int(ldmark.x * width), int(ldmark.y * height)
+                position_x, position_y = int(ld.x * width), int(ld.y * height)
 
-                landmarks_list.append([id, position_x, position_y])
+                self.landmarks_list.append([id, position_x, position_y])
 
-        return landmarks_list
+        return self.landmarks_list
 
+    def fingers_up(self):
+        fingers = []
 
+        # thumb
+        if self.landmarks_list[self.tip_ids[0]][1] > self.landmarks_list[self.tip_ids[0] - 1][1]:
+            fingers.append(1)
+        else:
+            fingers.append(0)
+
+        # for fingers
+        for id in range(1, 5):
+            if self.landmarks_list[self.tip_ids[id]][2] < self.landmarks_list[self.tip_ids[id] - 2][2]:
+                fingers.append(1)
+            else:
+                fingers.append(0)
+
+        return fingers

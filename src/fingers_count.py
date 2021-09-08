@@ -32,21 +32,7 @@ while True:
     landmarks_list = detector.find_position(img, draw=False)
 
     if len(landmarks_list) != 0:
-        fingers = []
-
-        # thumb
-        if landmarks_list[tip_ids[0]][1] > landmarks_list[tip_ids[0] - 1][1]:
-            fingers.append(1)
-        else:
-            fingers.append(0)
-
-        # for fingers
-        for id in range(1, 5):
-            if landmarks_list[tip_ids[id]][2] < landmarks_list[tip_ids[id]-2][2]:
-                fingers.append(1)
-            else:
-                fingers.append(0)
-
+        fingers = detector.fingers_up()
         total_fingers = fingers.count(1)
 
     # h, w, c = overlay_list[0].shape -----> do this if your images have different sizes
