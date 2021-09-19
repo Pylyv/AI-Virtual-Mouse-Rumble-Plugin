@@ -8,7 +8,7 @@ import pyautogui
 
 ###################################
 w_cam, h_cam = 640, 480
-frame_reduction = 100
+frame_reduction = 150
 smoothening = 2
 ###################################
 
